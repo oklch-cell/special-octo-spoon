@@ -89,7 +89,7 @@ export default function ProductUpdatePage() {
                                 <FieldLabel htmlFor="quantity">Quantity</FieldLabel>
                                 <Input id="quantity" type="number" value={quantity || ""} onChange={e => setQuantity(Number(e.target.value))} />
                             </Field>
-                            <SelectCategory setValue={setCategory} widthFull={true} />
+                            <SelectCategory setValue={setCategory} widthFull={true} label={true} />
                         </div>
                         <div className="flex justify-end w-full">
                             <Button type="submit">UPDATE PRODUCT</Button>
