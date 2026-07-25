@@ -24,7 +24,7 @@ export default function HomePage() {
             if (success) {
                 productSet(data);
             } else {
-                console.log(error);
+                console.error(error);
             }
         }
         async function getUser() {
@@ -36,7 +36,7 @@ export default function HomePage() {
             if (success) {
                 userSet(data);
             } else {
-                console.log(error);
+                console.error(error);
             }
         }
 
@@ -55,7 +55,7 @@ export default function HomePage() {
 
   return (
     <main className="grid grid-rows-[1fr_auto]">
-        <div className="grid grid-cols-5 grid-rows-2 w-full h-full gap-5 p-5 max-w-300 mx-auto">
+        <div className="grid xl:grid-cols-5 xl:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 md:grid-cols-3 md:grid-rows-4 sm:grid-cols-2 sm:grid-rows-5   w-full h-full gap-5 p-5 max-w-300 mx-auto place-content-center place-items-center">
             {products.slice(startIndex, endIndex).map(product => (
                 <ProductCard product={product} key={product._id} />
              ))}

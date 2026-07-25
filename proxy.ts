@@ -5,9 +5,14 @@ export default async function proxy(request: NextRequest) {
     try {
         const { admin, error } = await verifyJwtToken(request);
 
-        if (error || !admin) {
-            return NextResponse.redirect("/");
+        if (!admin && request.url.includes("/admin")) {
+            return NextResponse.redirect(new URL("/", request.url));
         }
+
+        if (error === "NULL_TOKEN") {
+            return NextResponse.redirect(new URL("/login", request.url));
+        }
+
     } catch (error) {
         console.error("[ERROR]:", error);
     }
@@ -16,5 +21,8 @@ export default async function proxy(request: NextRequest) {
 export const config = {
     matcher: [
         "/admin/:path*",
+        "/cart",
+        "/orders",
+        "/user",
     ]
 }

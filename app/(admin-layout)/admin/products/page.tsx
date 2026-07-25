@@ -12,27 +12,22 @@ export default function ProductsPage() {
 
     useEffect(() => {
         const getProducts = async () => {
-            if (!products || !products.length) {
-                const response = await fetch("/api/products");
-                const { success, data, error } = await response.json();
+            const response = await fetch("/api/products");
+            const { success, data, error } = await response.json();
 
-                if (success) {
-                    productSet(data);
-                    console.log(data);
-                } else {
-                    console.error(error);
-                }
+            if (success) {
+                productSet(data);
+                console.log(data);
+            } else {
+                console.error(error);
             }
         }
-
         getProducts().then(() => null);
-
     }, [productSet, products]);
 
     return (
         <main className="max-w-7xl w-full p-5 mx-auto">
             <Table>
-
                 <TableHeader>
                     <TableRow>
                         <TableHead>Product Name</TableHead>
@@ -46,7 +41,7 @@ export default function ProductsPage() {
                     {products.map((product) => (
                         <TableRow key={product._id}>
                             <TableCell className="font-medium">{product.name}</TableCell>
-                            <TableCell>{product.price}</TableCell>
+                            <TableCell>${product.price}</TableCell>
                             <TableCell>{product.quantity}</TableCell>
                             <TableCell>{product?.orders?.length || 0}</TableCell>
                             <TableCell>{product.category}</TableCell>

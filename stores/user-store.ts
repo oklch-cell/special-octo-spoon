@@ -14,7 +14,7 @@ export type UserState = {
 }
 
 export type UserAction = {
-    userSet: (data: User) => void;
+    userSet: (data: User | null) => void;
 }
 
 export type UserStore = UserState & UserAction;

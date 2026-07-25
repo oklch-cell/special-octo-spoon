@@ -32,21 +32,21 @@ export default function ProductViewPage() {
     return (
         <main className="max-w-200 mx-auto w-full p-5 flex items-center justify-center">
             <div className="flex flex-col border border-accent p-5 rounded-lg gap-2">
-                <Image src={product.images[0]} loading="eager" alt={product.name} width={300} height={300} className="h-auto w-auto max-w-100 max-h-100 object-cover rounded-lg aspect-square border" />
+                <Image src={product.images[0]} loading="eager" alt={product.name} width={300} height={300} className="h-auto w-auto max-w-72 max-h-72 md:max-w-100 md:max-h-100 object-cover rounded-lg aspect-square border" />
                 <div>
                     <h1 className="font-bold text-2xl">{product.name}</h1>
-                    <p className="h-20 font-medium">{product.description}</p>
+                    <p className="h-auto font-medium truncate max-w-72 md:max-w-100">{product.description}</p>
                 </div>
                 <div className="font-medium">
-                    <span className="text-xl">Rs.{product.price}</span>
+                    <span className="text-xl">${product.price}</span>
                     <div className="flex items-center gap-8 ">
                         <span>Stock: {product.quantity}</span>
                         <span className="font-medium">Category: {product.category}</span>
                     </div>
                 </div>
-                <div className="flex flex-col md:flex-row gap-2">
-                    <Button className="w-49 text-center">BUY NOW</Button>
-                    <Button className="w-49 text-center" variant="outline">ADD TO CART</Button>
+                <div className="flex gap-2">
+                    <Button className="w-35 md:w-49 text-center">BUY NOW</Button>
+                    <Button className="w-35 md:w-49 text-center" variant="outline">ADD TO CART</Button>
                 </div>
             </div>
         </main>

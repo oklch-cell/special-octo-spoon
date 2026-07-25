@@ -7,16 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import Modal from "@/components/web/modal";
 
 export default function UserPage() {
     const { user, userSet } = useUserStore(state => state);
-
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
+    const router = useRouter();
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         async function getUser() {
@@ -78,6 +81,36 @@ export default function UserPage() {
         }
     }
 
+    const handleLogout = async () => {
+        const response = await fetch("/api/users/logout", {
+            method: "GET",
+            credentials: "include",
+        });
+        const { success } = await response.json();
+
+        if (success) {
+            userSet(null);
+            toast.success("Logged out successfully!");
+            router.push("/");
+        }
+    }
+
+    const handleDelete = async () => {
+        const response = await fetch("/api/users", {
+            method: "DELETE",
+            credentials: "include",
+        });
+        const { success, error } = await response.json();
+
+        if (success) {
+            userSet(null);
+            toast.success("Account deleted successfully!");
+            router.push("/");
+        } else {
+            toast.error(error);
+        }
+    }
+
     return (
         <main className="max-w-200 mx-auto w-full p-5 flex flex-col gap-5">
             <div className="flex flex-col gap-2">
@@ -115,6 +148,18 @@ export default function UserPage() {
                 </Field>
                 <div className="flex justify-end">
                     <Button onClick={handlePassword}>CHANGE PASSWORD</Button>
+                </div>
+            </div>
+            <Separator />
+            <div className="flex flex-col gap-2">
+                <h1 className="text-2xl font-semibold">Account Settings</h1>
+                <div className="flex justify-between">
+                    <Button onClick={() => setModalOpen(true)}>DELETE ACCOUNT</Button>
+                    <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                        <p>Are you sure!</p>
+                        <Button variant="destructive" onClick={handleDelete} className="w-full">DELETE</Button>
+                    </Modal>
+                    <Button variant="outline" onClick={handleLogout}>LOG OUT</Button>
                 </div>
             </div>
         </main>

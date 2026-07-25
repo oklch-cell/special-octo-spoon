@@ -21,7 +21,7 @@ export function getJwt(id: string, response: NextResponse) {
 export async function verifyJwtToken(request: NextRequest) {
     try {
         const token = request.cookies.get("token");
-        if (!token) {
+        if (!token?.value || !token?.value.length) {
             return { error: "NULL_TOKEN", user: null, admin: false };
         }
 

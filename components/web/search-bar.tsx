@@ -18,12 +18,12 @@ export default function SearchBar() {
     }
 
     return (
-        <div className="flex gap-2 items-center">
-            <SelectCategory setValue={setCategory} widthFull={false} />
+        <>
+            <SelectCategory setValue={setCategory} widthFull={false} label={false} />
             <ButtonGroup className="flex">
                 <Input placeholder="Search" value={text} onChange={e => setText(e.target.value)} className="focus-visible:ring-0 flex-1 md:w-100 lg:w-120" />
                 <Button onClick={handleClick} className="border-2 border-black cursor-pointer"><Search /></Button>
             </ButtonGroup>
-        </div>
+        </>
     )
 }

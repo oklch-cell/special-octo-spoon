@@ -2,6 +2,7 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function ProductCard({ product }: { product: { _id: string, name: string, images: string[], price: number, quantity: number } }) {
     const handleAddToCart = async () => {
@@ -14,8 +15,10 @@ export default function ProductCard({ product }: { product: { _id: string, name:
 
         if (success) {
             console.log(data);
+            toast.success("Product added to cart.");
         } else {
             console.error(error);
+            toast.error(error);
         }
     }
 

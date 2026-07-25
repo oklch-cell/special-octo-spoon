@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
         const { user, error } = await verifyJwtToken(request);
         if (error) {
             if (error === "NULL_TOKEN") {
-                return NextResponse.json({}, { status: 200 });
+                return NextResponse.json({
+                    success: true,
+                    data: "NO_TOKEN",
+                    error: null,
+                }, { status: 200 });
             } else {
                 return NextResponse.json({
                     success: false,
@@ -140,11 +144,15 @@ export async function DELETE(request: NextRequest) {
             }, { status: 400 });
         }
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             success: true,
             error: null,
             data: deleted_user,
         }, { status: 200 });
+
+        response.cookies.set("token", "");
+
+        return response;
     } catch (e) {
         if (e instanceof Error) {
             console.error("[ERROR]:", e.message);

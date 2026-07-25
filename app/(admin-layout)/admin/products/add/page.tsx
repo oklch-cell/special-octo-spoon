@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useProductStore } from "@/providers/product-store-provider";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const CLOUDINARY_API = process.env.NEXT_PUBLIC_CLOUDINARY_API;
 if (!CLOUDINARY_API) {
@@ -47,8 +48,14 @@ export default function AddProductPage() {
                    body: formData,
                });
 
-               const json = await response.json();
-               images.push(json.url);
+               if (response.ok) {
+                   const json = await response.json();
+                   images.push(json.url);
+                   setUploading(false);
+                   return toast.success("Image(s) uploaded!");
+               }
+
+               toast.error("Some error occurred!");
            }
        }
         setUploading(false);
@@ -70,9 +77,11 @@ export default function AddProductPage() {
         if (success) {
             console.log(data);
             productAdd(data);
-            router.push("/");
+            toast.success("Product added successfully!");
+            router.push("/admin/products");
         } else {
             console.error(error);
+            toast.error(error);
         }
     }
 
@@ -101,7 +110,7 @@ export default function AddProductPage() {
                                 <FieldLabel htmlFor="quantity">Quantity</FieldLabel>
                                 <Input id="quantity" type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} />
                             </Field>
-                            <SelectCategory setValue={setCategory} widthFull={true} />
+                            <SelectCategory setValue={setCategory} widthFull={true} label={true} />
                         </div>
                         <div className="flex gap-4 items-center">
                             <Field>

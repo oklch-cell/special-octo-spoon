@@ -12,10 +12,10 @@ const categories = [
     { label: "Wedges", value: "wedges" },
 ];
 
-export default function SelectCategory({ setValue, widthFull }: { setValue: (c: string) => void, widthFull: boolean }) {
+export default function SelectCategory({ setValue, widthFull, label }: { setValue: (c: string) => void, widthFull: boolean, label: boolean }) {
     return (
         <Field>
-            {widthFull && <FieldLabel htmlFor="category">Category</FieldLabel>}
+            {label && <FieldLabel htmlFor="category">Category</FieldLabel>}
             <Select items={categories} id="category" onValueChange={(value: string | null) => setValue(value!)}>
                 <SelectTrigger className={`${widthFull ? "w-full" : "max-w-48 w-full"}`}>
                     <SelectValue />

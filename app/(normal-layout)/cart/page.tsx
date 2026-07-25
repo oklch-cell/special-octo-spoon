@@ -87,7 +87,7 @@ export default function CartPage() {
     }
 
     return (
-        <main className="max-w-300 mx-auto w-full p-5 flex gap-5 flex-col md:flex-row">
+        <main className="max-w-300 mx-auto w-full p-5 flex gap-5 flex-col lg:flex-row">
             <div className="flex flex-col gap-3 flex-1">
                 {items.length ?
                     items.map(item => {
@@ -131,7 +131,7 @@ export default function CartPage() {
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <strong>{item.product.name}</strong>
-                                    <span className="font-medium">Price: Rs.{item.product.price}</span>
+                                    <span className="font-medium">Price: ${item.product.price}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 flex-1 justify-end">
                                     <button disabled={item.quantity === 0} onClick={handleDecrease}
@@ -172,7 +172,7 @@ export default function CartPage() {
                     </div>
                 </Modal>
                 <div className="flex items-center justify-between">
-                    <strong>Total</strong><span className="font-medium">Rs.{total}</span>
+                    <strong>Total</strong><span className="font-medium">${total}</span>
                 </div>
                 <Button onClick={handleCheckout}
                         disabled={loading}>{loading ? "Please wait..." : "Proceed to Checkout"}</Button>

@@ -32,7 +32,7 @@ export default function SearchPage() {
     }, [productSet, products, category, query]);
 
     return (
-        <main className="grid grid-cols-5 grid-rows-2 max-w-300 w-full mx-auto p-5 gap-5">
+        <main className="grid xl:grid-cols-5 xl:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 md:grid-cols-3 md:grid-rows-4 sm:grid-cols-2 sm:grid-rows-5 w-full h-full gap-5 p-5 max-w-300 mx-auto place-content-center place-items-center">
             {
                 filtered.map(product => (
                     <ProductCard key={product._id} product={product} />
