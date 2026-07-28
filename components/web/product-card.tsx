@@ -1,25 +1,29 @@
+"use client";
+
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useCart } from "@/stores/cart-store";
 
 export default function ProductCard({ product }: { product: { _id: string, name: string, images: string[], price: number, quantity: number } }) {
-    const handleAddToCart = async () => {
-        const response = await fetch("/api/cart-items", {
-            method: "POST",
-            body: JSON.stringify({ product: product._id, quantity: 1 }),
-            credentials: "include",
-        });
-        const { success, data, error } = await response.json();
+    const { cartItemAdd } = useCart();
 
-        if (success) {
-            console.log(data);
-            toast.success("Product added to cart.");
-        } else {
-            console.error(error);
-            toast.error(error);
+    const handleAddToCart = () => {
+        const item = {
+            quantity: 1,
+            product: {
+                _id: product._id,
+                name: product.name,
+                price: product.price,
+                image: product.images[0],
+                quantity: product.quantity,
+            }
         }
+
+        cartItemAdd(item);
+        toast.success("Product added to the cart");
     }
 
     return (

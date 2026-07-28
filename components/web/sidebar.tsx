@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Menu, X, ShoppingCart, User2, LucidePackageCheck } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import SelectCategory from "@/components/web/select-category";
 import { Input } from "@/components/ui/input";
@@ -17,8 +17,20 @@ export default function SideBar() {
     const router = useRouter();
 
     const handleClick = () => {
+        setOpen(false);
+        setText("");
+        setCategory("");
         router.push(`/search?category=${category}&q=${text}`);
     }
+
+    useEffect(() => {
+        if (open) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+    }, [open]);
+
 
     return (
         <div>
@@ -34,9 +46,9 @@ export default function SideBar() {
                     </div>
                     <Separator />
                     <div className="flex flex-col gap-2">
-                        <Button variant="outline"><Link href="/cart" className="flex items-center gap-5">Cart <ShoppingCart size={16} /></Link></Button>
-                        <Button variant="outline"><Link href="/user" className="flex items-center gap-5">Profile <User2 size={16} /></Link></Button>
-                        <Button variant="outline"><Link href="/orders" className="flex items-center gap-5">Orders <LucidePackageCheck size={16} /></Link></Button>
+                        <Button onClick={() => setOpen(false)} variant="outline"><Link href="/cart" className="flex items-center gap-5">Cart <ShoppingCart size={16} /></Link></Button>
+                        <Button onClick={() => setOpen(false)} variant="outline"><Link href="/user" className="flex items-center gap-5">Profile <User2 size={16} /></Link></Button>
+                        <Button onClick={() => setOpen(false)} variant="outline"><Link href="/orders" className="flex items-center gap-5">Orders <LucidePackageCheck size={16} /></Link></Button>
                     </div>
                 </div>
             </div>

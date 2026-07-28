@@ -6,6 +6,7 @@ import { useUserStore } from "@/providers/user-store-provider";
 import ProductCard from "@/components/web/product-card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import Loading from "./loading";
 
 export default function HomePage() {
 
@@ -14,11 +15,14 @@ export default function HomePage() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = currentPage * itemsPerPage;
 
+    const [loading, setLoading] = useState(false);
+
     const { productSet, products } = useProductStore(state => state);
     const { userSet } = useUserStore(state => state);
 
     useEffect(() => {
         async function getProducts() {
+            setLoading(true);
             const response = await fetch("/api/products");
             const { success, data, error } = await response.json();
             if (success) {
@@ -38,6 +42,7 @@ export default function HomePage() {
             } else {
                 console.error(error);
             }
+            setLoading(false);
         }
 
         getProducts().then(() => null);
@@ -51,6 +56,10 @@ export default function HomePage() {
         if (s === "next") {
             setCurrentPage(prev => prev + 1);
         }
+    }
+
+    if (loading) {
+        return <Loading />
     }
 
   return (

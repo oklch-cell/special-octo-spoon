@@ -30,6 +30,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.className} ${geistMono.className} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full grid grid-rows-[auto_1fr]">
         <UserStoreProvider>

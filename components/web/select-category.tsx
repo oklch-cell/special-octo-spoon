@@ -2,7 +2,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Field, FieldLabel } from "@/components/ui/field";
 
 const categories = [
-    { label: "Select a category", value: null },
+    { label: "Select a category", value: "" },
     { label: "Cleats", value: "cleats" },
     { label: "Sneakers", value: "sneakers" },
     { label: "Loafers", value: "loafers" },
@@ -16,7 +16,7 @@ export default function SelectCategory({ setValue, widthFull, label }: { setValu
     return (
         <Field>
             {label && <FieldLabel htmlFor="category">Category</FieldLabel>}
-            <Select items={categories} id="category" onValueChange={(value: string | null) => setValue(value!)}>
+            <Select items={categories} id="category" defaultValue={""} onValueChange={(value: string | null) => setValue(value!)}>
                 <SelectTrigger className={`${widthFull ? "w-full" : "max-w-48 w-full"}`}>
                     <SelectValue />
                 </SelectTrigger>
