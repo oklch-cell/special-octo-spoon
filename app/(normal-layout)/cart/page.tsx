@@ -9,6 +9,7 @@ import { useCart, CartItem } from "@/stores/cart-store";
 import { useEffect, useState } from "react";
 import Modal from "@/components/web/modal";
 import { useUserStore } from "@/providers/user-store-provider";
+import toast from "react-hot-toast";
 
 export default function CartPage() {
     const { cartItems, cartItemQtyIncrease, cartItemQtyDecrease, cartItemRemove } = useCart();
@@ -53,6 +54,11 @@ export default function CartPage() {
     }
 
     const handleCheckout = async () => {
+        if (!user?.address || !user.address.length) {
+            setLoading(false);
+            toast.error("Please add the address!");
+            return;
+        }
         setLoading(true);
         const { _id } = await handleCreateOrder();
 

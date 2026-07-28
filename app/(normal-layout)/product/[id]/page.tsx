@@ -5,14 +5,22 @@ import {useEffect, useState} from "react";
 import type { Product } from "@/stores/product-store";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
+import { useCart } from "@/stores/cart-store";
+import { useRouter } from "next/navigation";
+import Loading from "../../loading";
 
 export default function ProductViewPage() {
     const [product, setProduct] = useState<Product | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const params = useParams();
+    const { cartItemAdd } = useCart();
+    const router = useRouter();
 
     useEffect(() => {
         const fetchProduct = async () => {
+            setLoading(true);
             const response = await fetch(`/api/products/${params.id}`);
             const { success, data, error } = await response.json();
 
@@ -22,12 +30,38 @@ export default function ProductViewPage() {
             } else {
                 console.log(error);
             }
+            setLoading(false);
         }
 
         fetchProduct().then(() => null);
     }, [params.id]);
 
     if (!product) return;
+
+    const handleAddToCart = () => {
+        const item = {
+            quantity: 1,
+            product: {
+                _id: product._id,
+                name: product.name,
+                price: product.price,
+                image: product.images[0],
+                quantity: product.quantity,
+            }
+        }
+
+        cartItemAdd(item);
+        toast.success("Product added to the cart");
+    }
+
+    const handleBuyNow = () => {
+        handleAddToCart();
+        router.push('/cart');
+    }
+
+    if (loading) {
+        return <Loading />;
+    }
 
     return (
         <main className="max-w-200 mx-auto w-full p-5 flex items-center justify-center">
@@ -45,8 +79,8 @@ export default function ProductViewPage() {
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <Button className="w-35 md:w-49 text-center">BUY NOW</Button>
-                    <Button className="w-35 md:w-49 text-center" variant="outline">ADD TO CART</Button>
+                    <Button onClick={handleBuyNow} className="w-35 md:w-49 text-center">BUY NOW</Button>
+                    <Button onClick={handleAddToCart} className="w-35 md:w-49 text-center" variant="outline">ADD TO CART</Button>
                 </div>
             </div>
         </main>

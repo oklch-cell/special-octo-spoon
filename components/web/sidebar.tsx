@@ -19,7 +19,6 @@ export default function SideBar() {
     const handleClick = () => {
         setOpen(false);
         setText("");
-        setCategory("");
         router.push(`/search?category=${category}&q=${text}`);
     }
 

@@ -15,7 +15,6 @@ export default function SearchBar() {
 
     const handleClick = () => {
         console.log(category, text);
-        setCategory("");
         setText("");
         router.push(`/search?category=${category}&q=${text}`);
     }
