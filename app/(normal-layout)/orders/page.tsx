@@ -3,9 +3,9 @@ import { cookies } from "next/headers";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const cookieStore = await cookies();
-
 async function ordersGet() {
+  const cookieStore = await cookies();
+
   const response = await fetch(`${API_URL}/api/orders`, {
     method: "GET",
     headers: {
