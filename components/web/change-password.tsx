@@ -17,13 +17,13 @@ export function ChangePassword() {
       }),
       credentials: "include",
     });
-    const { success, data, error } = await response.json();
+    const { success, error } = await response.json();
 
     if (success) {
-      console.log(data);
+      setOldPassword("");
+      setNewPassword("");
       toast.success("Password changed successfully!");
     } else {
-      console.error(error);
       toast.error(error);
     }
   };

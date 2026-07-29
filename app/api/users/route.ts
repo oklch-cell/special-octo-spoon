@@ -1,6 +1,6 @@
+import { connect } from "@/lib/database";
 import { NextResponse, NextRequest } from "next/server";
 import { User } from "@/models/user.model";
-import { connect } from "@/lib/database";
 import { verifyJwtToken } from "@/lib/helper";
 
 export async function GET(request: NextRequest) {

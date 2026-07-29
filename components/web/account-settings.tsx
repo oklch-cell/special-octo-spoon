@@ -24,6 +24,8 @@ export function AccountSettings() {
       userSet(null);
       toast.success("Logged out successfully!");
       router.push("/");
+    } else {
+      toast.error("Error logging out!");
     }
   };
 

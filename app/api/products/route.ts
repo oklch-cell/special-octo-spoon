@@ -1,8 +1,7 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { connect } from "@/lib/database";
+import { NextResponse, NextRequest } from "next/server";
 import { Product } from "@/models/product.model";
 import { verifyJwtToken } from "@/lib/helper";
-import { connect } from "@/lib/database";
 
 export async function GET() {
     try {

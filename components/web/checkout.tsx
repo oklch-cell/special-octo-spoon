@@ -32,7 +32,6 @@ export function CheckOut() {
     const { success, data, error } = await response.json();
 
     if (success) {
-      console.log("ORDER:", data);
       return data;
     } else {
       console.error(error);
@@ -66,7 +65,6 @@ export function CheckOut() {
     const { success, data, error } = await response.json();
 
     if (success) {
-      console.log(data);
       userSet(data);
       setOpen(false);
     } else {

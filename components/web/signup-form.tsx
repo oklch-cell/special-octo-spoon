@@ -57,7 +57,6 @@ export function SignUpForm() {
       toast.success("Signed up successfully!");
       router.push("/");
     } else {
-      console.log(error);
       toast.error(error);
     }
     setLoading(false);

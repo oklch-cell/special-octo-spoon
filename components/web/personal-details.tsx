@@ -35,11 +35,9 @@ export function PersonalDetails() {
     const { success, data, error } = await response.json();
 
     if (success) {
-      console.log(data);
       toast.success("Profile updated successfully!");
       userSet(data);
     } else {
-      console.error(error);
       toast.error(error);
     }
   };
