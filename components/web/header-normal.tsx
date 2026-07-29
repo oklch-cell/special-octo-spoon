@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ShoppingCart, User2, LucidePackageCheck } from "lucide-react";
-import SearchBar from "./search-bar";
-import SideBar from "@/components/web/sidebar";
+import { SearchBar } from "./search-bar";
+import { SideBar } from "@/components/web/sidebar";
 
-export default function Header() {
+export function Header() {
 
     return (
         <nav className="p-5 flex items-center justify-between shadow">

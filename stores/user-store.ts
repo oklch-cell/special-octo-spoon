@@ -1,33 +1,24 @@
-import { createStore } from "zustand/vanilla";
+import { create } from "zustand";
 
 export type User = {
-    _id: string;
-    name: string;
-    email: string;
-    address: string;
-    phone: string;
-    orders: string[] | [];
-}
+  _id: string;
+  name: string;
+  email: string;
+  address: string;
+  phone: string;
+  orders: string[] | [];
+};
 
 export type UserState = {
-    user: User | null;
-}
+  user: User | null;
+};
 
 export type UserAction = {
-    userSet: (data: User | null) => void;
-}
+  userSet: (data: User | null) => void;
+};
 
-export type UserStore = UserState & UserAction;
+export const useUser = create<UserState & UserAction>()((set) => ({
+  user: null,
 
-export const defaultState: UserState = {
-    user: null,
-}
-
-export const createUserStore = (initState: UserState = defaultState) => {
-    return createStore<UserStore>()((set) => ({
-        ...initState,
-        userSet: (data) => {
-            set({ user: data });
-        }
-    }))
-}
+  userSet: (user) => set({ user }),
+}));

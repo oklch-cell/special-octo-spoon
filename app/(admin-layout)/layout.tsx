@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
-import Header from "@/components/web/header-admin";
+import { HeaderAdmin } from "@/components/web";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
         <>
-            <Header />
+            <HeaderAdmin />
             {children}
         </>
     )

@@ -2,6 +2,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { User } from "@/models/user.model";
 import type { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
+// import { cookies } from "next/headers";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
@@ -21,6 +22,12 @@ export function getJwt(id: string, response: NextResponse) {
 export async function verifyJwtToken(request: NextRequest) {
     try {
         const token = request.cookies.get("token");
+        // const cookie = await cookies();
+        // const t = cookie.get("token");
+        // console.log("TOKEN:", token?.value);
+        // console.log("COOKIE:", t?.value);
+        // console.log("EQUAL:", token?.value === t?.value)
+        
         if (!token?.value || !token?.value.length) {
             return { error: "NULL_TOKEN", user: null, admin: false };
         }
@@ -30,11 +37,13 @@ export async function verifyJwtToken(request: NextRequest) {
             return { error: "Invalid token!", user: null, admin: false };
         }
 
+        // console.log("ID:", id);
         const user = await User.findById(id).select("-password");
         if (!user) {
             return { error: "Invalid token!", user: null, admin: false };
         }
 
+        // console.log("USER (VERIFY_TOKEN):", user);
         if (user.role && user.role === "ADMIN") {
             return { error: null, user, admin: true };
         }

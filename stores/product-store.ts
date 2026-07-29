@@ -1,39 +1,26 @@
-import { createStore } from "zustand/vanilla";
+import { create } from "zustand";
 
 export type Product = {
-    _id: string;
-    name: string;
-    price: number;
-    quantity: number;
-    description: string;
-    images: string[];
-    orders: string[] | [] | null;
-    category: string;
-}
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  description: string;
+  images: string[];
+  orders: string[] | [];
+  category: string;
+};
 
 export type ProductState = {
-    products: Product[];
-}
+  products: Product[];
+};
 
 export type ProductAction = {
-    productSet: (data: Product[]) => void;
-    productAdd: (data: Product) => void;
-}
+  productSet: (data: Product[]) => void;
+};
 
-export type ProductStore = ProductState & ProductAction;
+export const useProduct = create<ProductState & ProductAction>()((set) => ({
+  products: [],
 
-export const defaultState: ProductState = {
-    products: []
-}
-
-export const createProductStore = (initState: ProductState = defaultState) => {
-    return createStore<ProductStore>()((set) => ({
-        ...initState,
-        productSet: (data) => {
-            set({ products: data });
-        },
-        productAdd: (data) => {
-            set(({ products }) => ({ products: [ data, ...products ] }));
-        }
-    }))
-}
+  productSet: (products) => set({ products }),
+}));

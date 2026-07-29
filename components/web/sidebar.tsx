@@ -1,15 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Menu, X, ShoppingCart, User2, LucidePackageCheck } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Separator } from "@/components/ui/separator";
-import SelectCategory from "@/components/web/select-category";
-import { Input } from "@/components/ui/input";
+import { Separator, Input, Button } from "@/components/ui";
+import { SelectCategory } from "@/components/web";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function SideBar() {
+export function SideBar() {
     const [open, setOpen] = useState(false);
     const [category, setCategory] = useState("");
     const [text, setText] = useState("");
@@ -19,7 +17,7 @@ export default function SideBar() {
     const handleClick = () => {
         setOpen(false);
         setText("");
-        router.push(`/search?category=${category}&q=${text}`);
+        router.push(`/search?category=${category}&query=${text}`);
     }
 
     useEffect(() => {

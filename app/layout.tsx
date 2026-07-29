@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import React from "react";
-import { UserStoreProvider } from "@/providers/user-store-provider";
-import { ProductStoreProvider } from "@/providers/product-store-provider";
 import { Toaster } from "react-hot-toast";
+import { AppInitializer } from "@/components/web/app-initializer";
+import { cookies } from "next/headers";
+
+import React from "react";
+
+import type { Metadata } from "next";
+
+import "./globals.css";
+
+export const dynamic = "force-dynamic";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,11 +26,49 @@ export const metadata: Metadata = {
   description: "No Description",
 };
 
-export default function RootLayout({
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+async function userGet() {
+  const cookieStore = await cookies();
+
+  const response = await fetch(`${API_URL}/api/users`, {
+    method: "GET",
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+    credentials: "include",
+    cache: "no-store",
+  });
+
+  const { success, data, error } = await response.json();
+
+  if (success) {
+    return data;
+  } else {
+    console.error(error);
+  }
+}
+
+async function productsGet() {
+  const response = await fetch(`${API_URL}/api/products`, {
+    cache: "no-store",
+  });
+  const { success, data, error } = await response.json();
+  if (success) {
+    return data;
+  } else {
+    console.error(error);
+  }
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await userGet();
+  const products = await productsGet();
+
   return (
     <html
       lang="en"
@@ -33,11 +76,8 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full grid grid-rows-[auto_1fr]">
-        <UserStoreProvider>
-          <ProductStoreProvider>
-            {children}
-          </ProductStoreProvider>
-        </UserStoreProvider>
+        {children}
+        <AppInitializer user={user} products={products} />
         <Toaster />
       </body>
     </html>
